@@ -1,0 +1,5 @@
+select distinct fps.* 
+from facebook_posts fps
+join facebook_reactions frs
+on fps.post_id = frs.post_id
+where frs.reaction = 'heart';
