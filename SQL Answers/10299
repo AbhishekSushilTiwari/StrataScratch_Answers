@@ -1,0 +1,14 @@
+with current_salary as (
+select id, first_name, last_name, max(salary) as salary
+from ms_employee_salary
+group by id, first_name, last_name
+), 
+join_tables as (
+select a.*, b.department_id
+from current_salary a
+join ms_employee_salary b
+on a.id = b.id
+and a.salary = b.salary
+)
+select * from join_tables
+order by id;
