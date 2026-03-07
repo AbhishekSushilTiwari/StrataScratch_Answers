@@ -1,0 +1,14 @@
+with cte as (
+select *, '2020-02-10'::date as current_date_val
+from fb_comments_count
+),
+cte1 as (
+select *, current_date_val - INTERVAL '29 days' as threshold_val
+from cte
+)
+select user_id, sum(number_of_comments)
+from cte1 
+where created_at >= threshold_val
+and created_at <= current_date_val
+group by user_id
+having sum(number_of_comments)>=1
