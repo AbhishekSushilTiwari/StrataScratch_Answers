@@ -1,0 +1,19 @@
+with join_tables as (
+select a.*, b.department
+from db_employee a
+join db_dept b
+on a.department_id = b.id
+), 
+groupby_table as (
+select department, max(salary) highest_salary
+from join_tables
+group by department
+), 
+difference as (
+select max(case when department = 'engineering' then highest_salary end) as eng_salary,
+max(case when department = 'marketing' then highest_salary end) as mark_salary
+from groupby_table
+)
+
+select abs(eng_salary - mark_salary) as salary_difference
+from difference;
