@@ -1,0 +1,15 @@
+with cte as (
+    select log_date, user_id
+    from mobile_logs
+
+    union
+
+    select log_date, user_id
+    from web_logs
+), 
+cte1 as (
+    select log_date, count(distinct (user_id)) as users
+    from cte
+    group by log_date
+)
+select * from cte1
